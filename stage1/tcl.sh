@@ -11,7 +11,7 @@ download() {
 
 prebuild() {
 	SRCDIR=$(pwd)/..
-	../unix/configure --prefix=/usr \
+	LDFLAGS="${LDFLAGS} -Wl,--as-needed -lm" ../unix/configure --prefix=/usr \
 		--mandir=/usr/share/man \
 		--disable-rpath
 	return $?

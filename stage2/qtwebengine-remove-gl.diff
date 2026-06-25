@@ -1,0 +1,27 @@
+--- org/src/3rdparty/chromium/third_party/webrtc/modules/portal/BUILD.gn	2026-06-23 05:34:49.792071303 +0800
++++ fix/src/3rdparty/chromium/third_party/webrtc/modules/portal/BUILD.gn	2026-06-23 05:35:18.898066072 +0800
+@@ -28,10 +28,10 @@
+   pkg_config("gbm") {
+     packages = [ "gbm" ]
+   }
+-  pkg_config("gl") {
+-    packages = [ "gl" ]
+-    ignore_libs = true
+-  }
++  #pkg_config("gl") {
++  #  packages = [ "gl" ]
++  #  ignore_libs = true
++  #}
+   pkg_config("egl") {
+     packages = [ "egl" ]
+     ignore_libs = true
+@@ -73,7 +73,7 @@
+     configs = [
+       ":pipewire_base",
+       ":gbm",
+-      ":gl",
++      #":gl",
+       ":egl",
+       ":libdrm",
+     ]
+

@@ -19,7 +19,8 @@ prebuild() {
 }
 
 build() {
-        make -j$(nproc)
+        make -C lib -j$(nproc)
+	make -C libelf -j$(nproc)
 	return $? 
 }
 

@@ -28,4 +28,5 @@ Scripts to build Clang/LLVM-based (No GCC at all) LFS on AMD64.
 + \[x\] Chroot
 + \[x\] Stage 1 (Chroot compilation)
 + \[x\] Boot into LFS
-
++ \[x\] Stage 2 (Basic software required for a desktop environment)
++ \[ \] Stage 3 -- KDE

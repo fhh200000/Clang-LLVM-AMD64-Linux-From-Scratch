@@ -17,7 +17,7 @@ prebuild() {
 
 build() {
 	pushd ..
-	cargo build --release --features unix
+	RUSTONIG_DYNAMIC_LIBONIG=1 cargo build --release --features unix
 	ret=$?
 	popd
 	return $ret

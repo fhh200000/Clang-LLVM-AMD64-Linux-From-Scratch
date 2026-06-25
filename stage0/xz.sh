@@ -10,7 +10,7 @@ download() {
 }
 
 prebuild() {
-	CC="clang --sysroot=${LFS}" CXX="clang++ --sysroot=${LFS}" \
+	SKIP_WERROR_CHECK=yes CC="clang --sysroot=${LFS}" CXX="clang++ --sysroot=${LFS}" \
 		../configure --prefix=/usr                \
 		--host=$LFS_TGT              \
 		--build=$(../build-aux/config.guess)  \

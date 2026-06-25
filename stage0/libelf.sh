@@ -12,13 +12,14 @@ download() {
 prebuild() {
 	CC="clang --sysroot=${LFS} -Wno-incompatible-pointer-types-discards-qualifiers -Wno-unused-parameter" CXX="clang++ --sysroot=${LFS} -Wno-incompatible-pointer-types-discards-qualifiers -Wno-unused-parameter" \
 		../configure --prefix=/usr                \
-		--disable-debuginfod \
+		--disable-debuginfod --disable-demangler \
 		--enable-libdebuginfod=dummy --without-bzlib 
 	return $?
 }
 
 build() {
-        make -j$(nproc)
+        make -C lib -j$(nproc)
+	make -C libelf -j$(nproc)
 	# Ignore build result because it seems there is no way to bypass
 	return 0 
 }
