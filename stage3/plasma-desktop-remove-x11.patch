@@ -1,0 +1,128 @@
+diff -r -u -d org/applets/taskmanager/backend.h fix/applets/taskmanager/backend.h
+--- org/applets/taskmanager/backend.h	2026-06-23 16:14:36.000000000 +0800
++++ fix/applets/taskmanager/backend.h	2026-07-03 13:02:19.018260965 +0800
+@@ -11,7 +11,6 @@
+ #include <QObject>
+ #include <QRect>
+ 
+-#include <netwm.h>
+ #include <qqmlregistration.h>
+ #include <qwindowdefs.h>
+ 
+diff -r -u -d org/CMakeLists.txt fix/CMakeLists.txt
+--- org/CMakeLists.txt	2026-06-23 16:14:36.000000000 +0800
++++ fix/CMakeLists.txt	2026-07-03 12:56:05.416245860 +0800
+@@ -188,7 +188,7 @@
+ find_package(KWinDBusInterface CONFIG REQUIRED)
+ find_package(ScreenSaverDBusInterface CONFIG REQUIRED)
+ find_package(KRunnerAppDBusInterface CONFIG REQUIRED)
+-find_package(KSMServerDBusInterface CONFIG REQUIRED)
++#find_package(KSMServerDBusInterface CONFIG REQUIRED)
+ find_package(KF6ItemModels CONFIG REQUIRED)
+ find_package(KSysGuard CONFIG REQUIRED)
+ find_package(KF6KDED CONFIG REQUIRED)
+@@ -200,17 +200,17 @@
+     TYPE RECOMMENDED
+ )
+ 
+-find_package(X11)
+-set_package_properties(X11 PROPERTIES
+-    DESCRIPTION "X11 libraries"
+-    URL "https://www.x.org"
+-    PURPOSE "Required for building the X11 based workspace"
+-    TYPE REQUIRED
+-)
++#find_package(X11)
++#set_package_properties(X11 PROPERTIES
++#    DESCRIPTION "X11 libraries"
++#    URL "https://www.x.org"
++#    PURPOSE "Required for building the X11 based workspace"
++#    TYPE REQUIRED
++#)
+ 
+-if(X11_FOUND)
+-  set(HAVE_X11 1)
+-endif()
++#if(X11_FOUND)
++#  set(HAVE_X11 1)
++#endif()
+ 
+ find_package(UDev)
+ set_package_properties(UDev PROPERTIES
+@@ -220,12 +220,12 @@
+     TYPE OPTIONAL
+ )
+ 
+-find_package(XCB
+-    REQUIRED COMPONENTS
+-        XCB SHM IMAGE
+-    OPTIONAL_COMPONENTS
+-        XKB XINPUT ATOM RECORD
+-)
++#find_package(XCB
++#    REQUIRED COMPONENTS
++#        XCB SHM IMAGE
++#    OPTIONAL_COMPONENTS
++#        XKB XINPUT ATOM RECORD
++#)
+ 
+ if (BUILD_KCM_TOUCHPAD_X11)
+     find_package(X11_XCB)
+diff -r -u -d org/ConfigureChecks.cmake fix/ConfigureChecks.cmake
+--- org/ConfigureChecks.cmake	2026-06-23 16:14:36.000000000 +0800
++++ fix/ConfigureChecks.cmake	2026-07-03 12:53:04.075238528 +0800
+@@ -11,7 +11,7 @@
+     message(FATAL_ERROR "Couldn't find XKB location: \"${XKBDIR}\".")
+ endif()
+ 
+-check_function_exists(statvfs HAVE_STATVFS)
++set (HAVE_STATVFS TRUE)
+ check_include_files(limits.h HAVE_LIMITS_H)
+ check_include_files(sys/time.h HAVE_SYS_TIME_H)     # ksmserver, ksplashml, sftp
+ check_include_files("sys/stat.h;sys/vfs.h" HAVE_SYS_VFS_H) # statvfs for plasma/solid
+diff -r -u -d org/imports/activitymanager/switcherbackend.cpp fix/imports/activitymanager/switcherbackend.cpp
+--- org/imports/activitymanager/switcherbackend.cpp	2026-06-23 16:14:36.000000000 +0800
++++ fix/imports/activitymanager/switcherbackend.cpp	2026-07-03 13:20:26.448304931 +0800
+@@ -28,7 +28,7 @@
+ #include <KGlobalAccel>
+ #include <KIO/PreviewJob>
+ #include <KLocalizedString>
+-#include <KWindowInfo>
++//#include <KWindowInfo>
+ #include <KWindowSystem>
+ #if HAVE_X11
+ #include <KX11Extras>
+diff -r -u -d org/kcms/access/CMakeLists.txt fix/kcms/access/CMakeLists.txt
+--- org/kcms/access/CMakeLists.txt	2026-06-23 16:14:36.000000000 +0800
++++ fix/kcms/access/CMakeLists.txt	2026-07-03 12:56:46.771247532 +0800
+@@ -110,7 +110,7 @@
+     KF6::WindowSystem
+     KF6::NotifyConfig
+     KF6::XmlGui
+-    X11::X11
++    #X11::X11
+ )
+ 
+ install(
+diff -r -u -d org/kcms/access/kcmaccess.cpp fix/kcms/access/kcmaccess.cpp
+--- org/kcms/access/kcmaccess.cpp	2026-06-23 16:14:36.000000000 +0800
++++ fix/kcms/access/kcmaccess.cpp	2026-07-03 13:09:02.295277270 +0800
+@@ -23,7 +23,6 @@
+ #include <KActionCollection>
+ #include <KConfigGroup>
+ #include <KGlobalAccel>
+-#include <KKeyServer>
+ #include <KLocalizedString>
+ #include <KNotifyConfigWidget>
+ #include <KPluginFactory>
+diff -r -u -d org/kcms/mouse/inputbackend.cpp fix/kcms/mouse/inputbackend.cpp
+--- org/kcms/mouse/inputbackend.cpp	2026-06-23 16:14:36.000000000 +0800
++++ fix/kcms/mouse/inputbackend.cpp	2026-07-03 13:17:06.647296853 +0800
+@@ -57,6 +57,6 @@
+ #endif
+ }
+ 
+-#include <fixx11h.h>
++//#include <fixx11h.h>
+ 
+ #include "moc_inputbackend.cpp"

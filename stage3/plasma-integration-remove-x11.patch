@@ -1,0 +1,95 @@
+diff -r -u -d org/CMakeLists.txt fix/CMakeLists.txt
+--- org/CMakeLists.txt	2026-06-23 16:15:11.000000000 +0800
++++ fix/CMakeLists.txt	2026-07-03 13:48:29.973372998 +0800
+@@ -53,13 +53,13 @@
+     set(BUILD_QT6 ON)
+ endif()
+ 
+-find_package(XCB COMPONENTS XCB)
+-set_package_properties(XCB PROPERTIES
+-    DESCRIPTION "X protocol C-language Binding"
+-    URL "https://xcb.freedesktop.org"
+-    TYPE REQUIRED
+-    PURPOSE "Required to pass style properties to native Windows on X11 Platform"
+-)
++#find_package(XCB COMPONENTS XCB)
++#set_package_properties(XCB PROPERTIES
++#    DESCRIPTION "X protocol C-language Binding"
++#    URL "https://xcb.freedesktop.org"
++#    TYPE REQUIRED
++#    PURPOSE "Required to pass style properties to native Windows on X11 Platform"
++#)
+ 
+ find_package(FontNotoSans)
+ set_package_properties(FontNotoSans PROPERTIES
+diff -r -u -d org/autotests/CMakeLists.txt fix/qt6/autotests/CMakeLists.txt
+--- org/qt6/autotests/CMakeLists.txt	2026-06-23 16:15:11.000000000 +0800
++++ fix/qt6/autotests/CMakeLists.txt	2026-07-03 13:53:35.361385345 +0800
+@@ -73,7 +73,6 @@
+   ../src/platformtheme/kdeplatformfiledialogbase.cpp
+   ../src/platformtheme/kdeplatformsystemtrayicon.cpp ../src/platformtheme/kdeplatformsystemtrayicon.h
+   ../src/platformtheme/kwaylandintegration.cpp ../src/platformtheme/kwaylandintegration.h
+-  ../src/platformtheme/x11integration.cpp ../src/platformtheme/x11integration.h
+   ../src/platformtheme/qxdgdesktopportalfiledialog.cpp
+   ../src/platformtheme/qdbusmenubarwrapper.h
+   ../src/platformtheme/kiodelegate.cpp
+diff -r -u -d org/qt6/src/platformtheme/CMakeLists.txt fix/qt6/src/platformtheme/CMakeLists.txt
+--- org/qt6/src/platformtheme/CMakeLists.txt	2026-06-23 16:15:11.000000000 +0800
++++ fix/qt6/src/platformtheme/CMakeLists.txt	2026-07-03 13:51:25.203380083 +0800
+@@ -1,9 +1,4 @@
+-find_package(X11)
+-set_package_properties(X11 PROPERTIES DESCRIPTION "Required for updating the Cursor theme on X11"
+-                        URL "https://www.x.org"
+-                        TYPE REQUIRED
+-                        )
+-set(HAVE_X11 ${X11_FOUND})
++set(HAVE_X11 FALSE)
+ if(HAVE_X11)
+ 
+   find_package(XCB COMPONENTS XCB)
+@@ -21,7 +16,6 @@
+     kdeplatformmessagedialoghelper.cpp kdeplatformmessagedialoghelper.h
+     kdeplatformsystemtrayicon.cpp kdeplatformsystemtrayicon.h
+     kwaylandintegration.cpp kwaylandintegration.h
+-    x11integration.cpp x11integration.h
+     main.cpp
+     qxdgdesktopportalfiledialog.cpp
+     qtquickrenderersettings.cpp
+@@ -64,7 +58,6 @@
+         KF6::Notifications
+         KF6::WindowSystem
+         KF6::GuiAddons
+-        XCB::XCB
+         Qt6::WaylandClient
+         Qt6::GuiPrivate
+         Wayland::Client
+diff -r -u -d org/qt6/src/platformtheme/kdeplatformtheme.cpp fix/qt6/src/platformtheme/kdeplatformtheme.cpp
+--- org/qt6/src/platformtheme/kdeplatformtheme.cpp	2026-06-23 16:15:11.000000000 +0800
++++ fix/qt6/src/platformtheme/kdeplatformtheme.cpp	2026-07-03 13:54:31.763387625 +0800
+@@ -17,7 +17,6 @@
+ #include "khintssettings.h"
+ #include "kiodelegate.h"
+ #include "kwaylandintegration.h"
+-#include "x11integration.h"
+ 
+ #include <QApplication>
+ #include <QDBusConnection>
+diff -r -u -d org/qt6/src/platformtheme/kdeplatformtheme.h fix/qt6/src/platformtheme/kdeplatformtheme.h
+--- org/qt6/src/platformtheme/kdeplatformtheme.h	2026-06-23 16:15:11.000000000 +0800
++++ fix/qt6/src/platformtheme/kdeplatformtheme.h	2026-07-03 13:55:38.733390333 +0800
+@@ -19,7 +19,6 @@
+ class KHintsSettings;
+ class KFontSettingsData;
+ class KWaylandIntegration;
+-class X11Integration;
+ class QIconEngine;
+ class QWindow;
+ 
+@@ -63,7 +62,6 @@
+     KHintsSettings *m_hints = nullptr;
+     KFontSettingsData *m_fontsData = nullptr;
+     QScopedPointer<KWaylandIntegration> m_kwaylandIntegration;
+-    QScopedPointer<X11Integration> m_x11Integration;
+ };
+ 
+ #endif // KDEPLATFORMTHEME_H

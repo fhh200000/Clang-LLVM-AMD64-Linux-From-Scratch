@@ -1,0 +1,28 @@
+diff -r -u -d org/osd/osd.cpp fix/osd/osd.cpp
+--- org/osd/osd.cpp	2026-06-23 16:11:53.000000000 +0800
++++ fix/osd/osd.cpp	2026-07-01 20:08:01.588190871 +0800
+@@ -12,7 +12,6 @@
+ #include <LayerShellQt/Window>
+ 
+ #include <KWindowSystem>
+-#include <KX11Extras>
+ 
+ #include <Plasma/Plasma>
+ 
+@@ -75,16 +74,6 @@
+         layerWindow->setKeyboardInteractivity(LayerShellQt::Window::KeyboardInteractivityOnDemand);
+         m_osdActionSelector->setScreen(screen);
+         m_osdActionSelector->setVisible(true);
+-    } else {
+-        auto newGeometry = m_osdActionSelector->geometry();
+-        newGeometry.moveCenter(screen->geometry().center());
+-        KX11Extras::setState(m_osdActionSelector->winId(), NET::SkipPager | NET::SkipSwitcher | NET::SkipTaskbar);
+-        KX11Extras::setType(m_osdActionSelector->winId(), NET::OnScreenDisplay);
+-        m_osdActionSelector->setVisible(true);
+-        // Workaround wrong geometry by setting geometry after it is visible, not before.
+-        // Because KWin replace OSD at lower area of the screen.
+-        m_osdActionSelector->setGeometry(newGeometry);
+-        m_osdActionSelector->requestActivate();
+     }
+ }
+ 

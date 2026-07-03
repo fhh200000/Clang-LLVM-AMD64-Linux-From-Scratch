@@ -1,0 +1,129 @@
+diff -r -u -d org/kdecoration/config/oxygendetectwidget.cpp fix/kdecoration/config/oxygendetectwidget.cpp
+--- org/kdecoration/config/oxygendetectwidget.cpp	2026-06-23 16:13:45.000000000 +0800
++++ fix/kdecoration/config/oxygendetectwidget.cpp	2026-07-03 15:18:15.963590759 +0800
+@@ -15,7 +15,6 @@
+ 
+ #include "oxygen.h"
+ 
+-#include <KWindowInfo>
+ 
+ #include <QMouseEvent>
+ #include <QPushButton>
+@@ -54,32 +53,6 @@
+ {
+     if (window == 0)
+         selectWindow();
+-    else
+-        readWindow(window);
+-}
+-
+-//_________________________________________________________
+-void DetectDialog::readWindow(WId window)
+-{
+-    if (window == 0) {
+-        emit detectionDone(false);
+-        return;
+-    }
+-
+-    m_info.reset(new KWindowInfo(window, NET::WMAllProperties, NET::WM2AllProperties));
+-    if (!m_info->valid()) {
+-        emit detectionDone(false);
+-        return;
+-    }
+-
+-    const QString wmClassClass(QString::fromUtf8(m_info->windowClassClass()));
+-    const QString wmClassName(QString::fromUtf8(m_info->windowClassName()));
+-
+-    m_ui.windowClass->setText(QStringLiteral("%1 (%2 %3)").arg(wmClassClass).arg(wmClassName).arg(wmClassClass));
+-    m_ui.windowTitle->setText(m_info->name());
+-    emit detectionDone(exec() == QDialog::Accepted);
+-
+-    return;
+ }
+ 
+ //_________________________________________________________
+@@ -119,8 +92,6 @@
+     if (static_cast<QMouseEvent *>(e)->button() != Qt::LeftButton)
+         return true;
+ 
+-    // read window information
+-    readWindow(findWindow());
+ 
+     return true;
+ }
+diff -r -u -d org/kdecoration/config/oxygendetectwidget.h fix/kdecoration/config/oxygendetectwidget.h
+--- org/kdecoration/config/oxygendetectwidget.h	2026-06-23 16:13:45.000000000 +0800
++++ fix/kdecoration/config/oxygendetectwidget.h	2026-07-03 15:17:34.734589092 +0800
+@@ -23,7 +23,6 @@
+ #include <QEvent>
+ #include <QLabel>
+ 
+-#include <KWindowInfo>
+ #include <kwindowsystem.h>
+ 
+ namespace Oxygen
+@@ -42,11 +41,6 @@
+     //* selected class
+     QByteArray selectedClass() const;
+ 
+-    //* window information
+-    const KWindowInfo &windowInfo() const
+-    {
+-        return *(m_info.data());
+-    }
+ 
+     //* exception type
+     InternalSettings::EnumExceptionType exceptionType() const
+@@ -70,8 +64,6 @@
+     //* select window from grab
+     void selectWindow();
+ 
+-    //* read window properties
+-    void readWindow(WId window);
+ 
+     //* find window under cursor
+     WId findWindow();
+@@ -85,9 +77,6 @@
+     //* invisible dialog used to grab mouse
+     QDialog *m_grabber = nullptr;
+ 
+-    //* current window information
+-    QScopedPointer<KWindowInfo> m_info;
+-
+     //* wm state atom
+     quint32 m_wmStateAtom = 0;
+ };
+diff -r -u -d org/kdecoration/config/oxygenexceptiondialog.cpp fix/kdecoration/config/oxygenexceptiondialog.cpp
+--- org/kdecoration/config/oxygenexceptiondialog.cpp	2026-06-23 16:13:45.000000000 +0800
++++ fix/kdecoration/config/oxygenexceptiondialog.cpp	2026-07-03 15:15:53.233584988 +0800
+@@ -136,19 +136,6 @@
+         // type
+         m_ui.exceptionType->setCurrentIndex(m_detectDialog->exceptionType());
+ 
+-        // window info
+-        const KWindowInfo &info(m_detectDialog->windowInfo());
+-
+-        switch (m_detectDialog->exceptionType()) {
+-        default:
+-        case InternalSettings::ExceptionWindowClassName:
+-            m_ui.exceptionEditor->setText(QString::fromUtf8(info.windowClassClass()));
+-            break;
+-
+-        case InternalSettings::ExceptionWindowTitle:
+-            m_ui.exceptionEditor->setText(info.name());
+-            break;
+-        }
+     }
+ 
+     delete m_detectDialog;
+diff -r -u -d org/kdecoration/oxygensettingsprovider.cpp fix/kdecoration/oxygensettingsprovider.cpp
+--- org/kdecoration/oxygensettingsprovider.cpp	2026-06-23 16:13:45.000000000 +0800
++++ fix/kdecoration/oxygensettingsprovider.cpp	2026-07-03 15:11:25.672574171 +0800
+@@ -12,7 +12,6 @@
+ 
+ #include "oxygenexceptionlist.h"
+ 
+-#include <KWindowInfo>
+ 
+ #include <QRegularExpression>
+ #include <QTextStream>

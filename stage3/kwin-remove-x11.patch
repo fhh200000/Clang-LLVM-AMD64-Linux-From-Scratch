@@ -1,0 +1,158 @@
+diff -r -u -d org/src/effect/effecthandler.cpp fix/src/effect/effecthandler.cpp
+--- org/src/effect/effecthandler.cpp	2026-06-23 16:12:31.000000000 +0800
++++ fix/src/effect/effecthandler.cpp	2026-06-30 23:24:31.280425580 +0800
+@@ -42,7 +42,6 @@
+ #include "sm.h"
+ #include "virtualdesktops.h"
+ #include "wayland_server.h"
+-#include "window_property_notify_x11_filter.h"
+ #include "workspace.h"
+ #if KWIN_BUILD_X11
+ #include "x11window.h"
+diff -r -u -d org/src/effect/effecthandler.h fix/src/effect/effecthandler.h
+--- org/src/effect/effecthandler.h	2026-06-23 16:12:31.000000000 +0800
++++ fix/src/effect/effecthandler.h	2026-06-30 23:27:32.301617473 +0800
+@@ -78,7 +78,6 @@
+ struct TabletToolTipEvent;
+ class Window;
+ class WindowItem;
+-class WindowPropertyNotifyX11Filter;
+ class WorkspaceScene;
+ class VirtualDesktop;
+ class EglContext;
+@@ -1118,7 +1117,6 @@
+     WorkspaceScene *m_scene;
+     QList<Effect *> m_grabbedMouseEffects;
+     EffectLoader *m_effectLoader;
+-    std::unique_ptr<WindowPropertyNotifyX11Filter> m_x11WindowPropertyNotify;
+     KConfigWatcher::Ptr m_configWatcher;
+ };
+ 
+diff -r -u -d org/src/helpers/dialoghelper/dialoghelper.cpp fix/src/helpers/dialoghelper/dialoghelper.cpp
+--- org/src/helpers/dialoghelper/dialoghelper.cpp	2026-06-23 16:12:31.000000000 +0800
++++ fix/src/helpers/dialoghelper/dialoghelper.cpp	2026-06-30 23:19:32.172702994 +0800
+@@ -19,9 +19,6 @@
+ 
+ #include <qpa/qplatformwindow_p.h>
+ 
+-#include <private/qtx11extras_p.h>
+-#include <xcb/xcb.h>
+-
+ static QString shortcut(const QString &name)
+ {
+     const auto shortcuts = KGlobalAccel::self()->globalShortcut(QStringLiteral("kwin"), name);
+@@ -55,16 +52,13 @@
+ 
+     parser.process(app);
+ 
+-    const bool isX11 = app.platformName() == QLatin1StringView("xcb");
+-
+     QString windowHandle = parser.value(widOption);
+ 
+     // on Wayland XDG_ACTIVATION_TOKEN is set in the environment.
+     bool time_ok = false;
+-    xcb_timestamp_t timestamp = parser.value(timestampOption).toULong(&time_ok);
+ 
+     if (windowHandle.isEmpty()
+-        || (isX11 && (!time_ok || timestamp == XCB_CURRENT_TIME))) {
++        ) {
+         fprintf(stdout, "%s\n", qPrintable(i18n("This helper utility is not supposed to be called directly.")));
+         parser.showHelp(1);
+     }
+@@ -119,9 +113,6 @@
+         parser.showHelp(1);
+     }
+ 
+-    if (isX11) {
+-        QX11Info::setAppUserTime(timestamp);
+-    }
+ 
+     // KMessageDialog::Information doesn't let us add additional buttons...
+     auto *dialog = new KMessageDialog(KMessageDialog::QuestionTwoActions, prompt);
+diff -r -u -d org/src/helpers/killer/killer.cpp fix/src/helpers/killer/killer.cpp
+--- org/src/helpers/killer/killer.cpp	2026-06-23 16:12:31.000000000 +0800
++++ fix/src/helpers/killer/killer.cpp	2026-06-30 23:18:33.964344407 +0800
+@@ -33,9 +33,6 @@
+ 
+ #include <qpa/qplatformwindow_p.h>
+ 
+-#include <private/qtx11extras_p.h>
+-#include <xcb/xcb.h>
+-
+ #include <cerrno>
+ #include <csignal>
+ #include <memory>
+@@ -156,7 +153,6 @@
+ 
+     parser.process(app);
+ 
+-    const bool isX11 = app.platformName() == QLatin1StringView("xcb");
+ 
+     QString hostname = parser.value(hostNameOption);
+     bool pid_ok = false;
+@@ -166,10 +162,8 @@
+     QString windowHandle = parser.value(widOption);
+ 
+     bool time_ok = false;
+-    xcb_timestamp_t timestamp = parser.value(timestampOption).toULong(&time_ok);
+ 
+     if (!pid_ok || pid == 0 || windowHandle.isEmpty()
+-        || (isX11 && (!time_ok || timestamp == XCB_CURRENT_TIME))
+         || hostname.isEmpty() || windowName.isEmpty() || appname.isEmpty()) {
+         fprintf(stdout, "%s\n", qPrintable(i18n("This helper utility is not supposed to be called directly.")));
+         parser.showHelp(1);
+@@ -189,9 +183,6 @@
+     dialog.setPid(pid);
+     dialog.setHostName(hostname);
+ 
+-    if (isX11) {
+-        QX11Info::setAppUserTime(timestamp);
+-    }
+ 
+     QObject::connect(&dialog, &KillDialog::terminateRequested, &dialog, [&dialog, pid, &hostname, &isLocal] {
+         if (!isLocal) {
+diff -r -u -d org/src/screenedge.h fix/src/screenedge.h
+--- org/src/screenedge.h	2026-06-23 16:12:31.000000000 +0800
++++ fix/src/screenedge.h	2026-06-30 23:23:25.870558483 +0800
+@@ -28,7 +28,6 @@
+ #include <QObject>
+ 
+ #include <memory>
+-#include <xcb/xcb.h>
+ 
+ class QAction;
+ 
+diff -r -u -d org/src/shadow.h fix/src/shadow.h
+--- org/src/shadow.h	2026-06-23 16:12:31.000000000 +0800
++++ fix/src/shadow.h	2026-06-30 23:31:43.690091671 +0800
+@@ -16,7 +16,6 @@
+ #include <QImage>
+ #include <QObject>
+ 
+-#include <xcb/xcb.h>
+ 
+ namespace KDecoration3
+ {
+@@ -126,11 +125,9 @@
+     void geometryChanged();
+ 
+ private:
+-    static std::unique_ptr<Shadow> createShadowFromX11(Window *window);
+     static std::unique_ptr<Shadow> createShadowFromDecoration(Window *window);
+     static std::unique_ptr<Shadow> createShadowFromWayland(Window *window);
+     static std::unique_ptr<Shadow> createShadowFromInternalWindow(Window *window);
+-    static QList<uint32_t> readX11ShadowProperty(xcb_window_t id);
+     bool init(const QList<uint32_t> &data);
+     bool init(KDecoration3::Decoration *decoration);
+     bool init(const QPointer<ShadowInterface> &shadow);
+diff -r -u -d org/src/workspace.cpp fix/src/workspace.cpp
+--- org/src/workspace.cpp	2026-06-23 16:12:31.000000000 +0800
++++ fix/src/workspace.cpp	2026-06-30 23:34:24.034209880 +0800
+@@ -34,7 +34,6 @@
+ #include "rules.h"
+ #include "screenedge.h"
+ #include "scripting/scripting.h"
+-#include "syncalarmx11filter.h"
+ #include "window.h"
+ #if KWIN_BUILD_TABBOX
+ #include "tabbox/tabbox.h"

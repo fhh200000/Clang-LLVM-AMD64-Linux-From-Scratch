@@ -1,0 +1,22 @@
+export SOURCE_VERSION=26.04.2
+export SOURCE_NAME=kio-extras-${SOURCE_VERSION}
+export SCRIPT_DIR=$(pwd)
+
+download() {
+        wget https://download.kde.org/stable/release-service/${SOURCE_VERSION}/src/${SOURCE_NAME}.tar.xz
+	tar -xf ${SOURCE_NAME}.tar.xz
+}
+
+prebuild() {
+	cmake -D CMAKE_INSTALL_PREFIX=/usr \
+		-D CMAKE_BUILD_TYPE=Release         \
+		-D BUILD_TESTING=OFF                \
+		-W no-dev ..
+}
+build() {
+	make -j$(nproc)
+}
+
+install() {
+	make install
+}

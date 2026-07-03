@@ -1,0 +1,28 @@
+diff -r -u -d org/CMakeLists.txt fix/CMakeLists.txt
+--- org/CMakeLists.txt	2026-06-23 16:10:56.000000000 +0800
++++ fix/CMakeLists.txt	2026-07-01 20:00:29.977200951 +0800
+@@ -53,7 +53,7 @@
+ 
+ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake kded/config.h)
+ 
+-add_subdirectory(gtk3proxies)
++# add_subdirectory(gtk3proxies)
+ add_subdirectory(kded)
+ add_subdirectory(kconf_update)
+ add_subdirectory(color-reload-module)
+diff -r -u -d org/gtk3proxies/CMakeLists.txt fix/gtk3proxies/CMakeLists.txt
+--- org/gtk3proxies/CMakeLists.txt	2026-06-23 16:10:56.000000000 +0800
++++ fix/gtk3proxies/CMakeLists.txt	2026-07-01 08:39:43.756698849 +0800
+@@ -1,10 +1,9 @@
+ # gtk3 pulls in X11 headers, we need to add the include path if they are not in /usr/include
+-find_package(X11)
+ 
+ add_executable(gtk3_preview preview3.c)
+ 
+ target_compile_definitions(gtk3_preview PRIVATE "-DDATA_DIR=\"${KDE_INSTALL_FULL_DATADIR}/kcm-gtk-module/\"")
+-target_link_libraries(gtk3_preview PkgConfig::GTK+3 PkgConfig::GLib2 PkgConfig::GObject X11::X11)
++target_link_libraries(gtk3_preview PkgConfig::GTK+3 PkgConfig::GLib2 PkgConfig::GObject )
+ install(TARGETS gtk3_preview  RUNTIME DESTINATION "${KDE_INSTALL_LIBEXECDIR}")
+ 
+ install(FILES preview.ui DESTINATION ${KDE_INSTALL_DATADIR}/kcm-gtk-module/)
+

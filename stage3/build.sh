@@ -6,7 +6,13 @@ PACKAGES=("blfs-systemd-units" "openssh" "extra-cmake-modules" "utfcpp" "taglib"
   	  "libaio" "lvm2" "cryptsetup" "libblockdev" "udisks2" "zxing-cpp" "qca" "libdmtx"
 	  "spidermonkey" "gjs" "libsecret" "breeze-icons" "perl-business-isbn-data"
 	  "perl-business-isbn" "perl-mime-base32" "perl-uri" "aspell" "chardet" "doxygen"
-	  "doxypypy" "doxyqml" "kde-frameworks-6")
+	  "doxypypy" "doxyqml" "kde-frameworks-6" "ark" "inih" "exiv2" "libkexiv2"
+	  "qcoro" "plasma-activities" "plasma-activities-stats" "kdsoap" "kdsoap-ws-discovery-client"
+	  "kio-extras" "dolphin" "dolphin-plugins" "fmt" "kddockwidgets" "konsole"
+	  "kirigami-addons" "pulseaudio-qt" "qtkeychain" "kquickimageeditor" "libxmlb" "cxx-rust-cssparser"
+	  "libfyaml" "lxml" "itstool" "appstream" "libnotify" "geoclue" "fuse" "corrosion"
+	  "xdg-desktop-portal" "accountsservice" "power-profiles-daemon" "lm-sensors" "leptonica" "tesseract"
+	  "libsass" "opencv" "libqalculate" "cracklib" "libpwquality" "libxcvt" "wayland-protocols" "kde-plasma-6")
 
 source ./settings.sh
 source ../common.sh

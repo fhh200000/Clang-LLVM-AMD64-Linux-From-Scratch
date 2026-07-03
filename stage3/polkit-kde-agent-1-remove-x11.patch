@@ -1,0 +1,20 @@
+diff -r -u -d org/policykitlistener.cpp fix/policykitlistener.cpp
+--- org/policykitlistener.cpp	2026-06-23 16:19:18.000000000 +0800
++++ fix/policykitlistener.cpp	2026-07-01 20:32:04.878158658 +0800
+@@ -12,7 +12,6 @@
+ 
+ #include <KLocalizedString>
+ #include <KWindowSystem>
+-#include <KX11Extras>
+ 
+ #include <PolkitQt1/ActionDescription>
+ #include <PolkitQt1/Agent/Session>
+@@ -125,8 +124,6 @@
+         if (!activationToken.isEmpty()) {
+             handleWaylandActivation(actionId, activationToken);
+         }
+-    } else if (KWindowSystem::isPlatformX11()) {
+-        KX11Extras::forceActiveWindow(m_dialog->windowHandle()->winId());
+     }
+ 
+     if (identities.length() == 1) {

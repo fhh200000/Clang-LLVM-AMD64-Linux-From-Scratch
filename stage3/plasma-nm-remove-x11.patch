@@ -1,0 +1,64 @@
+Only in fix: .clang-format
+diff -r -u -d org/kded/pindialog.cpp fix/kded/pindialog.cpp
+--- org/kded/pindialog.cpp	2026-06-23 16:15:41.000000000 +0800
++++ fix/kded/pindialog.cpp	2026-07-01 20:20:55.783173592 +0800
+@@ -14,7 +14,6 @@
+ 
+ #include <KLocalizedString>
+ #include <KWindowSystem>
+-#include <KX11Extras>
+ 
+ #include <ModemManagerQt/Manager>
+ 
+@@ -132,9 +131,6 @@
+     ui->pin->setCursorPosition(0);
+     ui->pin2->setCursorPosition(0);
+ 
+-    if (KWindowSystem::isPlatformX11()) {
+-        KX11Extras::setState(winId(), NET::KeepAbove);
+-    }
+ 
+     move((desktop.width() - width()) / 2, (desktop.height() - height()) / 2);
+     connect(ui->chkShowPass, &QCheckBox::toggled, this, &PinDialog::chkShowPassToggled);
+diff -r -u -d org/kded/secretagent.cpp fix/kded/secretagent.cpp
+--- org/kded/secretagent.cpp	2026-06-23 16:15:41.000000000 +0800
++++ fix/kded/secretagent.cpp	2026-07-01 20:20:21.059174367 +0800
+@@ -34,7 +34,6 @@
+ #include <KLocalizedString>
+ #include <KPluginFactory>
+ #include <KWindowSystem>
+-#include <KX11Extras>
+ #include <qt6keychain/keychain.h>
+ 
+ namespace
+@@ -448,9 +447,6 @@
+             request.dialog = m_dialog;
+             request.saveSecretsWithoutReply = !connectionSettings->permissions().isEmpty();
+             m_dialog->show();
+-            if (KWindowSystem::isPlatformX11()) {
+-                KX11Extras::setState(m_dialog->winId(), NET::KeepAbove);
+-            }
+             return false;
+         }
+     } else if (isVpn && userRequested) { // just return what we have
+diff -r -u -d org/libs/handler.cpp fix/libs/handler.cpp
+--- org/libs/handler.cpp	2026-06-23 16:15:42.000000000 +0800
++++ fix/libs/handler.cpp	2026-07-01 20:17:24.846178299 +0800
+@@ -40,7 +40,6 @@
+ #include <KOSRelease>
+ #include <KPluginMetaData>
+ #include <KWindowSystem>
+-#include <KX11Extras>
+ 
+ #include <QCoroDBus>
+ #include <nm-client.h>
+@@ -343,9 +342,6 @@
+         editor->setAttribute(Qt::WA_DeleteOnClose);
+         editor->show();
+ 
+-        if (KWindowSystem::isPlatformX11()) {
+-            KX11Extras::setState(editor->winId(), NET::KeepAbove);
+-        }
+ 
+         connect(editor.data(), &ConnectionEditorDialog::accepted, [editor, device, specificObject, this]() { //
+             addAndActivateConnectionDBus(editor->setting(), device, specificObject);

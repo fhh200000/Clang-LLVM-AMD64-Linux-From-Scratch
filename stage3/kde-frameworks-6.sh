@@ -8,7 +8,7 @@ download() {
 	mkdir -p kde-frameworks-6-${SOURCE_VERSION}
 	pushd kde-frameworks-6-${SOURCE_VERSION}
 	wget -r -nH -nd -A '*.xz' -np https://download.kde.org/stable/frameworks/${SOURCE_VERSION}/
-	cat > ../frameworks-${SOURCE_VERSION}.0.md5 << "EOF"
+	cat > frameworks-${SOURCE_VERSION}.0.md5 << "EOF"
 1d894e1d2c9921dc10d90bdc960f579d  attica-6.27.0.tar.xz
 #cf3e1cb18cb1ab27ed748fe54b5f96b5  extra-cmake-modules-6.27.0.tar.xz
 f6525f6ba7f1d56003144c545fe50dc0  kapidox-6.27.0.tar.xz

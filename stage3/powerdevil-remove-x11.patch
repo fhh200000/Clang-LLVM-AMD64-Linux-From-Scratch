@@ -1,0 +1,61 @@
+Only in fix: .clang-format
+diff -r -u -d org/CMakeLists.txt fix/CMakeLists.txt
+--- org/CMakeLists.txt	2026-06-23 16:19:24.000000000 +0800
++++ fix/CMakeLists.txt	2026-07-01 20:36:30.286152734 +0800
+@@ -59,7 +59,6 @@
+ 
+ find_package(UDev REQUIRED)
+ 
+-find_package(XCB REQUIRED COMPONENTS XCB RANDR DPMS)
+ 
+ find_package(KF6DocTools ${KF6_MIN_VERSION})
+ set_package_properties(KF6DocTools PROPERTIES
+diff -r -u -d org/daemon/actions/bundled/dpms.cpp fix/daemon/actions/bundled/dpms.cpp
+--- org/daemon/actions/bundled/dpms.cpp	2026-06-23 16:19:24.000000000 +0800
++++ fix/daemon/actions/bundled/dpms.cpp	2026-07-01 20:43:23.224143518 +0800
+@@ -19,7 +19,6 @@
+ #include <QDBusPendingCall>
+ #include <QGuiApplication>
+ #include <QTimer>
+-#include <private/qtx11extras_p.h>
+ 
+ #include <KActionCollection>
+ #include <KGlobalAccel>
+@@ -49,15 +48,8 @@
+     setRequiredPolicies(PowerDevil::PolicyAgent::ChangeScreenSettings);
+ 
+     // On Wayland, KWin takes care of performing the effect properly
+-    if (QX11Info::isPlatformX11()) {
+-        auto fadeEffect = new PowerDevil::KWinKScreenHelperEffect(this);
+-        connect(this, &DPMS::startFade, fadeEffect, &PowerDevil::KWinKScreenHelperEffect::start);
+-        connect(this, &DPMS::stopFade, fadeEffect, &PowerDevil::KWinKScreenHelperEffect::stop);
+-        connect(fadeEffect, &PowerDevil::KWinKScreenHelperEffect::fadedOut, this, &DPMS::turnOffOnIdleTimeout);
+-    } else {
+         // short-cut without fadeEffect in between timeout and actual action (compositor handles fading)
+         connect(this, &DPMS::startFade, this, &DPMS::turnOffOnIdleTimeout);
+-    }
+ 
+     // Listen to the policy agent
+     auto policyAgent = PowerDevil::PolicyAgent::instance();
+diff -r -u -d org/daemon/CMakeLists.txt fix/daemon/CMakeLists.txt
+--- org/daemon/CMakeLists.txt	2026-06-23 16:19:24.000000000 +0800
++++ fix/daemon/CMakeLists.txt	2026-07-01 20:37:08.954151871 +0800
+@@ -104,7 +104,6 @@
+     KF6::Notifications
+     KF6::XmlGui
+     KF6::KirigamiPlatform
+-    XCB::DPMS
+     powerdevil_log_static
+     ${UDEV_LIBS}
+     Qt::WaylandClient
+diff -r -u -d org/daemon/kwinkscreenhelpereffect.cpp fix/daemon/kwinkscreenhelpereffect.cpp
+--- org/daemon/kwinkscreenhelpereffect.cpp	2026-06-23 16:19:24.000000000 +0800
++++ fix/daemon/kwinkscreenhelpereffect.cpp	2026-07-01 20:39:19.074148967 +0800
+@@ -8,7 +8,6 @@
+ 
+ #include <QCoreApplication>
+ #include <chrono>
+-#include <private/qtx11extras_p.h>
+ 
+ using namespace std::chrono_literals;
+ 

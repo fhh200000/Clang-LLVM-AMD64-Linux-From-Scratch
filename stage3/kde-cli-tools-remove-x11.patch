@@ -1,0 +1,21 @@
+diff -r -u -d org/kdesu/kdesu.cpp fix/kdesu/kdesu.cpp
+--- org/kdesu/kdesu.cpp	2026-06-23 16:10:50.000000000 +0800
++++ fix/kdesu/kdesu.cpp	2026-07-03 14:20:57.231451728 +0800
+@@ -32,7 +32,7 @@
+ #include <QFile>
+ #include <QFileInfo>
+ #include <QLoggingCategory>
+-#include <private/qtx11extras_p.h>
++
+ 
+ #include <KSharedConfig>
+ #include <kaboutdata.h>
+@@ -304,7 +304,7 @@
+ 
+     QList<QByteArray> env;
+     QByteArray options;
+-    env << ("DESKTOP_STARTUP_ID=" + QX11Info::nextStartupId());
++    // env << ("DESKTOP_STARTUP_ID=" + QX11Info::nextStartupId());
+ 
+     //     TODO: Maybe should port this to XDG_*, somehow?
+     //     if (pw->pw_uid)

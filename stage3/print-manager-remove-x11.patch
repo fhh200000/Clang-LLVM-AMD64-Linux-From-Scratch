@@ -1,0 +1,69 @@
+diff -r -u -d org/src/configure-printer/ConfigurePrinterInterface.cpp fix/src/configure-printer/ConfigurePrinterInterface.cpp
+--- org/src/configure-printer/ConfigurePrinterInterface.cpp	2026-06-23 16:19:31.000000000 +0800
++++ fix/src/configure-printer/ConfigurePrinterInterface.cpp	2026-07-03 14:54:30.142533112 +0800
+@@ -14,11 +14,11 @@
+ #include <KCupsRequest.h>
+ 
+ #include <KWindowSystem>
+-#include <KX11Extras>
+ #include <QDBusConnection>
+ #include <QDialog>
+ #include <QPointer>
+ #include <QTimer>
++#include <QWindow>
+ 
+ ConfigurePrinterInterface::ConfigurePrinterInterface(QObject *parent)
+     : QObject(parent)
+@@ -92,11 +92,7 @@
+ 
+     // Check if it's not reserved
+     if (m_uis.value(destName)) {
+-        if (KWindowSystem::isPlatformX11()) {
+-            KX11Extras::forceActiveWindow(m_uis.value(destName)->winId());
+-        } else {
+             m_uis.value(destName)->windowHandle()->requestActivate();
+-        }
+     }
+ }
+ 
+diff -r -u -d org/src/libkcups/KCupsPasswordDialog.cpp fix/src/libkcups/KCupsPasswordDialog.cpp
+--- org/src/libkcups/KCupsPasswordDialog.cpp	2026-06-23 16:19:31.000000000 +0800
++++ fix/src/libkcups/KCupsPasswordDialog.cpp	2026-07-03 14:51:19.476525403 +0800
+@@ -11,7 +11,6 @@
+ #include <KLocalizedString>
+ #include <KPasswordDialog>
+ #include <KWindowSystem>
+-#include <KX11Extras>
+ 
+ KCupsPasswordDialog::KCupsPasswordDialog(QObject *parent)
+     : QObject(parent)
+@@ -49,9 +48,6 @@
+         dialog->setAttribute(Qt::WA_NativeWindow, true);
+         KWindowSystem::setMainWindow(dialog->windowHandle(), m_mainwindow);
+     }
+-    if (KWindowSystem::isPlatformX11()) {
+-        KX11Extras::forceActiveWindow(dialog->winId());
+-    }
+ 
+     // Do not return from this method now
+     dialog->exec();
+diff -r -u -d org/src/print-queue/PrintQueue.cpp fix/src/print-queue/PrintQueue.cpp
+--- org/src/print-queue/PrintQueue.cpp	2026-06-23 16:19:31.000000000 +0800
++++ fix/src/print-queue/PrintQueue.cpp	2026-07-03 14:57:46.942541068 +0800
+@@ -20,7 +20,6 @@
+ #include <KLocalizedQmlContext>
+ #include <KLocalizedString>
+ #include <KPasswdServerClient>
+-#include <KUserTimestamp>
+ 
+ using namespace Qt::StringLiterals;
+ 
+@@ -87,7 +86,7 @@
+ 
+         QScopedPointer<KPasswdServerClient> passwdServerClient(new KPasswdServerClient());
+         auto winId = static_cast<qlonglong>(m_mainWindow->winId());
+-        auto usertime = static_cast<qlonglong>(KUserTimestamp::userTimestamp());
++        auto usertime = 0;
+         if (passwdServerClient->checkAuthInfo(&info, winId, usertime)) {
+             // at this stage we don't know if stored credentials are correct
+             // trying blindly is risky, it may block this user's account
