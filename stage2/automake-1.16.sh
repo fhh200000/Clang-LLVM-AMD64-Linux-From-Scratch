@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export SOURCE_VERSION="1.18.1"
+export SOURCE_VERSION="1.16.1"
 export SOURCE_NAME=automake-${SOURCE_VERSION}
 export SCRIPT_DIR=$(pwd)
 

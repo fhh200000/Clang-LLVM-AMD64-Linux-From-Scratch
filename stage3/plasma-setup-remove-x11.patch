@@ -1,0 +1,43 @@
+diff -r -u -d org/modules/keyboard/CMakeLists.txt fix/modules/keyboard/CMakeLists.txt
+--- org/modules/keyboard/CMakeLists.txt
++++ fix/modules/keyboard/CMakeLists.txt
+@@ -9,7 +9,7 @@ ecm_qt_declare_logging_category(logging_SRCS
+     EXPORT PLASMASETUP
+ )
+ 
+-ecm_find_qmlmodule(org.kde.plasma.private.kcm_keyboard REQUIRED)
++#ecm_find_qmlmodule(org.kde.plasma.private.kcm_keyboard REQUIRED)
+ 
+ ecm_add_qml_module(plasmasetup_keyboard
+     URI "org.kde.plasmasetup.keyboard"
+diff -r -u -d org/modules/keyboard/contents/ui/main.qml fix/modules/keyboard/contents/ui/main.qml
+--- org/modules/keyboard/contents/ui/main.qml
++++ fix/modules/keyboard/contents/ui/main.qml
+@@ -17,7 +17,7 @@ import org.kde.kitemmodels as KItemModels
+ import org.kde.plasmasetup
+ import org.kde.plasmasetup.components as PlasmaSetupComponents
+ 
+-import org.kde.plasma.private.kcm_keyboard as KCMKeyboard
++// import org.kde.plasma.private.kcm_keyboard as KCMKeyboard
+ 
+ PlasmaSetupComponents.SetupModule {
+     id: root
+@@ -38,12 +38,12 @@ PlasmaSetupComponents.SetupModule {
+         variantView.highlightMoveDuration = -1;
+         searchField.forceActiveFocus();
+     }
+-
+-    KCMKeyboard.LayoutSearchModel {
+-        id: layoutSearchProxy
+-        sourceModel: KCMKeyboard.LayoutModel {}
+-        searchString: ""
+-    }
++//
++//    KCMKeyboard.LayoutSearchModel {
++//        id: layoutSearchProxy
++//        sourceModel: KCMKeyboard.LayoutModel {}
++//        searchString: ""
++//    }
+ 
+     KItemModels.KSortFilterProxyModel {
+         id: layoutsProxy

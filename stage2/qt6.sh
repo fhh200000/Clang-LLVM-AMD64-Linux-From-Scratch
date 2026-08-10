@@ -19,7 +19,7 @@ prebuild() {
             -journald               \
             -ltcg                   \
             -skip qtwebengine       \
-	    -libproxy 
+	    -libproxy -no-xcb -qpa wayland-egl 
 }
 
 build() {

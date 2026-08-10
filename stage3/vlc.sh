@@ -11,7 +11,7 @@ download() {
 
 prebuild() {	
 	sed -i 's/gstvideopool.h/video.h/' ../modules/codec/gstreamer/gstvlcvideopool.h
-	BUILDCC=cc ../configure --prefix=/usr --disable-xcb 
+	BUILDCC=cc ../configure --prefix=/usr --disable-xcb  --enable-wayland  --enable-gles2 have_gl=no 
 }
 
 build() {

@@ -156,3 +156,15 @@ diff -r -u -d org/src/workspace.cpp fix/src/workspace.cpp
  #include "window.h"
  #if KWIN_BUILD_TABBOX
  #include "tabbox/tabbox.h"
+diff -r -u -d org/plasma-kwin_wayland.service.in fix/plasma-kwin_wayland.service.in
+--- org/plasma-kwin_wayland.service.in
++++ fix/plasma-kwin_wayland.service.in
+@@ -3,6 +3,6 @@ Description=KDE Wayland Compositor
+ PartOf=graphical-session.target
+ 
+ [Service]
+-ExecStart=@CMAKE_INSTALL_FULL_BINDIR@/kwin_wayland_wrapper --xwayland
++ExecStart=@CMAKE_INSTALL_FULL_BINDIR@/kwin_wayland_wrapper
+ BusName=org.kde.KWinWrapper
+ Slice=session.slice
+

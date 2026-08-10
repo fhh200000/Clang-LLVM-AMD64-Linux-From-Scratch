@@ -13,7 +13,7 @@ download() {
 prebuild() {
 	mkdir -pv /usr/share/fonts/unifont &&
 		gunzip -c ../../unifont-17.0.03.pcf.gz > /usr/share/fonts/unifont/unifont.pcf
-	../configure --prefix=/usr        \
+	CFLAGS="" CXXFLAGS="" LDFLAGS="" ../configure --prefix=/usr        \
 		--sysconfdir=/etc    \
 		--disable-efiemu     \
 		--with-platform=efi  \

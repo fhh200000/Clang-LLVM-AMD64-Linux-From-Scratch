@@ -158,8 +158,17 @@ build() {
 			print-manager)
 				patch -Np1 -i ${SCRIPT_DIR}/print-manager-remove-x11.patch
 				;;
+			plasma-workspace)
+				patch -Np1 -i ${SCRIPT_DIR}/plasma-workspace-remove-x11.patch
+				;;
 			oxygen)
 				patch -Np1 -i ${SCRIPT_DIR}/oxygen-remove-x11.patch
+				;;
+			plasma-login-manager)
+				patch -Np1 -i ${SCRIPT_DIR}/plasma-login-manager-remove-x11.patch
+				;;
+			plasma-setup)
+				patch -Np1 -i ${SCRIPT_DIR}/plasma-setup-remove-x11.patch
 				;;
 		esac
 		mkdir build
@@ -175,6 +184,7 @@ build() {
 			-D WITH_X11_SESSION=OFF             \
 			-D BUILD_KCM_MOUSE_X11=OFF          \
 			-D BUILD_KCM_TOUCHPAD_X11=OFF       \
+			-D PAM_OS_CONFIGURATION=arch        \
 			-W no-dev ..
 		ret=$?
 		if [ $ret -ne 0 ]; then

@@ -1,0 +1,11 @@
+diff --git org/bin/plasma-bigscreen-wayland.in fix/bin/plasma-bigscreen-wayland.in
+--- org/bin/plasma-bigscreen-wayland.in
++++ fix/bin/plasma-bigscreen-wayland.in
+@@ -10,4 +10,4 @@
+ 
+ export EGL_PLATFORM=wayland
+ 
+-startplasma-wayland --xwayland --libinput --exit-with-session=@KDE_INSTALL_FULL_LIBEXECDIR@/startplasma-waylandsession
+\ No newline at end of file
++startplasma-wayland --libinput --exit-with-session=@KDE_INSTALL_FULL_LIBEXECDIR@/startplasma-waylandsession
+

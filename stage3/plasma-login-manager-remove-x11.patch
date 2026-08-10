@@ -1,0 +1,41 @@
+diff -r -u -d org/CMakeLists.txt fix/CMakeLists.txt
+--- org/CMakeLists.txt	2026-06-23 08:15:16.000000000 +0000
++++ fix/CMakeLists.txt	2026-08-10 03:08:02.655181864 +0000
+@@ -52,7 +52,7 @@
+ find_package(PkgConfig)
+ 
+ # XAU
+-pkg_check_modules(LIBXAU REQUIRED "xau" IMPORTED_TARGET)
++#pkg_check_modules(LIBXAU REQUIRED "xau" IMPORTED_TARGET)
+ 
+ pkg_check_modules(SYSTEMD REQUIRED "systemd")
+ 
+diff -r -u -d org/src/frontend/greeter/CMakeLists.txt fix/src/frontend/greeter/CMakeLists.txt
+--- org/src/frontend/greeter/CMakeLists.txt	2026-06-23 08:15:16.000000000 +0000
++++ fix/src/frontend/greeter/CMakeLists.txt	2026-08-10 03:10:37.543199772 +0000
+@@ -52,7 +52,6 @@
+     KF6::Package
+     KF6::WindowSystem
+     KF6::ConfigCore
+-    X11::X11
+     LayerShellQt::Interface
+     PW::KWorkspace
+     KF6::ScreenDpms
+diff -r -u -d org/src/helper/CMakeLists.txt fix/src/helper/CMakeLists.txt
+--- org/src/helper/CMakeLists.txt	2026-06-23 08:15:16.000000000 +0000
++++ fix/src/helper/CMakeLists.txt	2026-08-10 03:09:58.901195305 +0000
+@@ -29,14 +29,3 @@
+ 
+ install(TARGETS plasmalogin-helper RUNTIME DESTINATION "${CMAKE_INSTALL_LIBEXECDIR}")
+ 
+-add_executable(plasmalogin-helper-start-x11user HelperStartX11User.cpp xorguserhelper.cpp XAuth.cpp)
+-
+-target_link_libraries(plasmalogin-helper-start-x11user Qt6::Core KF6::CoreAddons PkgConfig::LIBXAU PkgConfig::LIBSYSTEMD)
+-
+-target_link_libraries(plasmalogin-helper-start-x11user
+-                      Qt6::Core
+-                      PkgConfig::LIBXAU
+-                      PkgConfig::LIBSYSTEMD
+-                      plasmalogin-common)
+-
+-install(TARGETS plasmalogin-helper-start-x11user RUNTIME DESTINATION "${CMAKE_INSTALL_LIBEXECDIR}")

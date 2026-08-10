@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export SOURCE_VERSION="5.47"
+export SOURCE_VERSION="5.48"
 export SOURCE_NAME=file-${SOURCE_VERSION}
 export SCRIPT_DIR=$(pwd)
 

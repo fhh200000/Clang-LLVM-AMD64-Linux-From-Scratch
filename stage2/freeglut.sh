@@ -14,6 +14,7 @@ prebuild() {
 		-D FREEGLUT_BUILD_DEMOS=OFF         \
 		-D FREEGLUT_BUILD_STATIC_LIBS=OFF   \
 		-D FREEGLUT_WAYLAND=ON              \
+		-D FREEGLUT_GLES=ON 		    \
 		-W no-dev ..
 }
 
