@@ -9,7 +9,7 @@ download() {
 
 prebuild() {
 	pushd ..
-	autoreconf -fiv
+	#autoreconf -fiv
 	sed -i 's/XSLTOPTS=\"\${XSLTPARAMS} \${XSLTOPTS}\"/XSLTOPTS=\"--catalogs \${XSLTPARAMS} \${XSLTOPTS}\"/g' xmlto.in
 	sed -i 's/SKIP_VALIDATION=0/SKIP_VALIDATION=1/g' xmlto.in
 	popd

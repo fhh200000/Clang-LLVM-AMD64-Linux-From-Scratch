@@ -211,6 +211,32 @@ build() {
 }
 
 install() {
+	useradd -r plasmalogin -u 958 -c "PLASMALOGIN Greeter Account" -d /var/lib/plasmalogin -s /usr/bin/nologin
+	cat > /etc/pam.d/system-login << EOF
+#%PAM-1.0
+
+auth       required   pam_shells.so
+auth       requisite  pam_nologin.so
+auth       include    system-auth
+
+account    required   pam_access.so
+account    required   pam_nologin.so
+account    include    system-auth
+
+password   include    system-auth
+
+session    optional   pam_loginuid.so
+session    optional   pam_keyinit.so       force revoke
+session    include    system-auth
+session    optional   pam_lastlog2.so      silent
+session    optional   pam_motd.so
+session    optional   pam_mail.so          dir=/var/spool/mail standard quiet
+session    optional   pam_umask.so
+-session   optional   pam_systemd.so
+session    required   pam_env.so
+
+EOF
+	systemctl enable plasmalogin
 	return 0
 }
 

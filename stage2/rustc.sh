@@ -44,10 +44,10 @@ tools = ["cargo", "clippy", "rustdoc", "rustfmt", "src"]
 
 [install]
 prefix = "/usr"
-docdir = "share/doc/rustc-1.93.1"
+docdir = "share/doc/rustc-1.96.0"
 
 [rust]
-channel = "stable"
+channel = "nightly"
 
 # Enable the same optimizations as the official upstream build.
 lto = "fat"

@@ -8,11 +8,12 @@ PACKAGES=("blfs-systemd-units" "openssh" "extra-cmake-modules" "utfcpp" "taglib"
 	  "perl-business-isbn" "perl-mime-base32" "perl-uri" "aspell" "chardet" "doxygen"
 	  "doxypypy" "doxyqml" "kde-frameworks-6" "ark" "inih" "exiv2" "libkexiv2"
 	  "qcoro" "plasma-activities" "plasma-activities-stats" "kdsoap" "kdsoap-ws-discovery-client"
-	  "kio-extras" "dolphin" "dolphin-plugins" "fmt" "kddockwidgets" "konsole"
+	  "kio-extras" "dolphin" "dolphin-plugins" "fmt" "kddockwidgets" "konsole" "corrosion"
 	  "kirigami-addons" "pulseaudio-qt" "qtkeychain" "kquickimageeditor" "libxmlb" "cxx-rust-cssparser"
-	  "libfyaml" "lxml" "itstool" "appstream" "libnotify" "geoclue" "fuse" "corrosion"
-	  "xdg-desktop-portal" "accountsservice" "power-profiles-daemon" "lm-sensors" "leptonica" "tesseract"
-	  "libsass" "opencv" "libqalculate" "cracklib" "libpwquality" "libxcvt" "wayland-protocols" "kde-plasma-6")
+	  "libfyaml" "lxml" "itstool" "appstream" "libnotify" "geoclue" "fuse"
+	  "xdg-desktop-portal" "accountsservice" "power-profiles-daemon" "lm-sensors" "leptonica"
+	  "tesseract" "libsass" "opencv" "libqalculate" "cracklib" "libpwquality" "libxcvt"
+	  "wayland-protocols" "kde-plasma-6" "clean" "remove-debug")
 
 source ./settings.sh
 source ../common.sh

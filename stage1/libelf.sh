@@ -25,7 +25,9 @@ build() {
 }
 
 install() {
-        make libelf install
+        make -C libelf install
+	make -C libdw install
+	make -C libdwfl install
 	ret=$?
 	/usr/bin/install -vm644 config/libelf.pc /usr/lib/pkgconfig
 	rm -v /usr/lib/libelf.a

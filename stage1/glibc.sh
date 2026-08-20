@@ -18,7 +18,7 @@ prebuild() {
 	patch -Np1 -i ${SCRIPT_DIR}/glibc-use-clang-rt.patch
 	ret=$?
 	popd
-	../configure \
+	CFLAGS="-O3 -march=native -mtune=native" CXXFLAGS= LDFLAGS= ../configure \
 		--prefix=/usr                      \
 		--disable-werror                   \
 		--disable-nscd                     \

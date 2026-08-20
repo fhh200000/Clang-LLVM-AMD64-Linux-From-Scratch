@@ -13,7 +13,7 @@ PACKAGES=("skeleton" "update-ca-round1" "bash-round1" "gettext-round1" "bison-ro
 	  "texinfo" "vim" "markupsafe" "jinja2" "pefile" "pyelftools" "systemd-round1" "d-bus" "man-db"
 	  "procps-ng" "util-linux" "e2fsprogs" "lzo" "btrfs-progs" "linux" "perl-net-ssleay"
 	  "perl-mime-base32" "perl-uri" "perl-io-socket-ssl" "libevent" "rpcsvc-proto" "libtirpc"
-	  "libnsl" "linux-pam" "shadow" "libcap" "dropbear" "remove-debug" "clean")
+	  "libnsl" "linux-pam" "shadow" "libcap" "util-linux-round2" "dropbear" "remove-debug" "clean")
 
 source ./settings.sh
 source ../common.sh
